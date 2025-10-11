@@ -1,0 +1,179 @@
+{
+	"info": {
+		"_postman_id": "0ba2b599-d374-415a-a7b4-f7d93b7065e3",
+		"name": "studentAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40460773"
+	},
+	"item": [
+		{
+			"name": "Get Single Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", ()=>  {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successful Get Request\", () => {\r",
+							"\tpm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-type header is present\", ()=>{\r",
+							"pm.response.to.have.header(\"Content-type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-type header is application/json\", ()=>{\r",
+							"pm.expect(pm.response.headers.get('Content-type')).to.eql('application/json');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", ()=>{\r",
+							"pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Test data type of the response\", ()=>{\r",
+							"\tpm.expect(jsonData).to.be.an(\"object\");\r",
+							"\tpm.expect(jsonData.name).to.be.a(\"string\");\r",
+							"\tpm.expect(jsonData.id).to.equal(\"1\");\r",
+							"\tpm.expect(jsonData.courses).to.be.a(\"array\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test array properties\", ()=> {\r",
+							"    pm.expect(jsonData.courses).to.include(\"Java\");\r",
+							"    pm.expect(jsonData.courses).to.have.members([\"Java\", \"Selenium\"]);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/students/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"students",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Student Data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/students",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create New Student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Harry\",\r\n    \"location\" : \"France\",\r\n    \"phone\" : \"56545421\",\r\n    \"courses\" : [\r\n        \"Plawright\",\r\n        \"JavaScript\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/students",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Sudent",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Harry\",\r\n    \"location\" : \"USA\",\r\n    \"phone\" : \"56545421\",\r\n    \"courses\" : [\r\n        \"Plawright\",\r\n        \"JavaScript\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/students/8e8e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"students",
+						"8e8e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Student",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Harry\",\r\n    \"location\" : \"USA\",\r\n    \"phone\" : \"56545421\",\r\n    \"courses\" : [\r\n        \"Plawright\",\r\n        \"JavaScript\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/students/8e8e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"students",
+						"8e8e"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
