@@ -1,0 +1,96 @@
+{
+	"info": {
+		"_postman_id": "2bc10f75-bdd8-4a94-8e89-a499ac85ffef",
+		"name": "Swagger API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40460773"
+	},
+	"item": [
+		{
+			"name": "Swagger Get Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fakerestapi.azurewebsites.net/api/v1/Activities",
+					"protocol": "https",
+					"host": [
+						"fakerestapi",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1",
+						"Activities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Swagger Get Request with id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fakerestapi.azurewebsites.net/api/v1/Activities/1",
+					"protocol": "https",
+					"host": [
+						"fakerestapi",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1",
+						"Activities",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://fakerestapi.azurewebsites.net/api/v1/Activities",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain; v=1.0"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; v=1.0"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":0,\r\n    \"title\":\"string\",\r\n    \"dueDate\":\"2025-10-21T08:55:18.325Z\",\r\n    \"completed\":true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://fakerestapi.azurewebsites.net/api/v1/Activities",
+					"protocol": "https",
+					"host": [
+						"fakerestapi",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1",
+						"Activities"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST \"https://fakerestapi.azurewebsites.net/api/v1/Activities\" -H  \"accept: text/plain; v=1.0\" -H  \"Content-Type: application/json; v=1.0\" -d \"{\\\"id\\\":0,\\\"title\\\":\\\"string\\\",\\\"dueDate\\\":\\\"2025-10-21T08:55:18.325Z\\\",\\\"completed\\\":true}\"\r\n"
+			},
+			"response": []
+		}
+	]
+}
