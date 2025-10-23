@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "726403f3-cfbb-4329-8dfa-8fca2a750dfd",
+		"name": "Opecert-RESTAPI_CartModule",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40460773"
+	},
+	"item": [
+		{
+			"name": "Create Session/Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check status Code\", ()=> {\r",
+							"    pm.response().to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"//capturing response to response\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//validating JSON response\r",
+							"pm.test(\"Check if the response contains the expected data\", function () {\r",
+							"    pm.expect(jsonData.success).to.eql(\"Success:API session Successfully started!\");\r",
+							"});\r",
+							"\r",
+							"//creating collection variable to store API token\r",
+							"pm.collectionVariables.set(\"api_token_val\", jsonData.api_token);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "demo",
+							"description": "From OpenCart Admin",
+							"type": "text"
+						},
+						{
+							"key": "Key",
+							"value": "DJDxNw8jkQhch8JNcYWmT3liTO3Supmf2QXHUalc0Qvm2U2ZwHvR7PuMvlcfbOG4ISPq7jVYJBVxORPbgGXJPmCOTT2dWkiZtpAQUzgrWNq4O7qbburtVTykP1Ripce3wr0Br7NvPHynsXyPgY5w1wfSL8QJ2gKEcPT5Tj2tdzbebEUjJ2DtmeuyQRdMR66ITCVKokiqCGdSvqbWM4Dppa8UaK0DexfvAfD4v1kAhACqbyD6CUTedRnZlH8s1hX2",
+							"description": "From OpenCart Admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURl}}api/login",
+					"host": [
+						"{{baseURl}}api"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURl",
+			"value": ""
+		}
+	]
+}
