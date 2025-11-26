@@ -21,13 +21,23 @@
       ]
     },
     {
-      "id": "3",
-      "name": "Smith",
-      "location": "Canada",
-      "phone": "654986454",
+      "id": "9692",
+      "name": "Nishan",
+      "location": "Sanepa",
+      "phone": "98551262585",
       "courses": [
-        "C#",
-        "RestAPI"
+        "Python",
+        "Selenium"
+      ]
+    },
+    {
+      "id": "2357",
+      "name": "Nishan",
+      "location": "Sanepa",
+      "phone": "98551262585",
+      "courses": [
+        "Python",
+        "Selenium"
       ]
     }
   ]
