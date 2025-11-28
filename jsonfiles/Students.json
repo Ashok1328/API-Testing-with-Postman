@@ -39,6 +39,16 @@
         "Python",
         "Selenium"
       ]
+    },
+    {
+      "id": "6f87",
+      "name": "Kiran",
+      "location": "Dubaie",
+      "phone": "98565454466464",
+      "courses": [
+        "Appium",
+        "Postman"
+      ]
     }
   ]
 }
