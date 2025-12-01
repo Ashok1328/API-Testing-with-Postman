@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "7c05c002-46ae-4858-8df4-69c38925b063",
+		"name": "BooksAPI_DataDriven",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40460773",
+		"_collection_link": "https://team-beast-6546.postman.co/workspace/My-worksapces~9a4a871f-4771-42a1-8fa7-5e3cb44541f2/collection/40460773-7c05c002-46ae-4858-8df4-69c38925b063?action=share&source=collection_link&creator=40460773"
+	},
+	"item": [
+		{
+			"name": "SubmitOrder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", ()=>\r",
+							"{\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"orderid_env\", jsonData.orderId);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tokens}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bookId\" : \"{{BookID}}\",\r\n    \"customerName\": \"{{CustomerName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base_URL}}/orders",
+					"host": [
+						"{{Base_URL}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Check orderid is present in the response body\", ()=>\r",
+							"{\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"orderid_env\"));\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tokens}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_URL}}/orders/{{orderid_env}}",
+					"host": [
+						"{{Base_URL}}"
+					],
+					"path": [
+						"orders",
+						"{{orderid_env}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", ()=>\r",
+							"{\r",
+							"    pm.response.to.have.status(204);\r",
+							"})\r",
+							"\r",
+							"pm.environment.unset(\"orderid_env\")"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tokens}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{Base_URL}}/orders/{{orderid_env}}",
+					"host": [
+						"{{Base_URL}}"
+					],
+					"path": [
+						"orders",
+						"{{orderid_env}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
