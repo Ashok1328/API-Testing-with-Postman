@@ -3,392 +3,1902 @@
 		"_postman_id": "61080a27-adc5-453a-9028-3ae87a3da67b",
 		"name": "Simple_Books_API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "40460773"
+		"_exporter_id": "40460773",
+		"_collection_link": "https://team-beast-6546.postman.co/workspace/My-worksapces~9a4a871f-4771-42a1-8fa7-5e3cb44541f2/collection/40460773-61080a27-adc5-453a-9028-3ae87a3da67b?action=share&source=collection_link&creator=40460773"
 	},
 	"item": [
 		{
-			"name": "Get Status",
+			"name": "Valid test",
 			"item": [
 				{
-					"name": "Book status",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Base_URL}}/status",
-							"host": [
-								"{{Base_URL}}"
+					"name": "Get Status",
+					"item": [
+						{
+							"name": "Book status",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", ()=> {\r",
+											"    pm.response.to.have.status(200)\r",
+											"}\r",
+											");\r",
+											"\r",
+											"pm.test(\"Status code name has string\", ()=> {\r",
+											"    pm.response.to.have.status(\"OK\")\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
 							],
-							"path": [
-								"status"
-							]
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/status",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"status"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "List of Books",
-			"item": [
+					]
+				},
 				{
 					"name": "List of Books",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Base_URL}}/books",
-							"host": [
-								"{{Base_URL}}"
-							],
-							"path": [
-								"books"
-							],
-							"query": [
+					"item": [
+						{
+							"name": "List of Books",
+							"event": [
 								{
-									"key": "limit",
-									"value": "20",
-									"disabled": true
-								},
-								{
-									"key": "type",
-									"value": "non-fiction",
-									"disabled": true
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Successful Get Request\", ()=> {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
 								}
-							]
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/books",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"books"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "20",
+											"disabled": true
+										},
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List of Books with fiction/non-fiction Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Test to check if status code is 200 or not\r",
+											"\r",
+											"pm.test(\"Status code is 200\", ()=>\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"})\r",
+											"\r",
+											"\r",
+											"\r",
+											"// Test to check if the header is present or not\r",
+											"\r",
+											"pm.test(\"Content-type header is present\", ()=> {\r",
+											"    pm.response.to.have.header(\"Content-type\");\r",
+											"})\r",
+											"\r",
+											"// Test to check if the header is present and has the correct value \r",
+											"\r",
+											"pm.test(\"Content-type header is a application/json\", ()=> {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-type\")).to.eql(\"application/json\");\r",
+											"})\r",
+											"\r",
+											"//Test to check if cookies are present or not\r",
+											"\r",
+											"// pm.test(\"Cookie 'language' is present\", ()=>\r",
+											"// {\r",
+											"//     pm.expect(pm.cookies.get(\"language\")).to.be.true;\r",
+											"// })\r",
+											"\r",
+											"// Test to check if response time is less than 200ms or not\r",
+											"\r",
+											"// Test if connection is alive or not\r",
+											"\r",
+											"pm.test(\"Connection\",()=>\r",
+											"{\r",
+											"    pm.expect(pm.response.headers.get(\"Connection\")).to.eql(\"keep-alive\");\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response time is less than 500ms\", ()=>\r",
+											"{\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/books?limit=10&type=fiction",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"books"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "type",
+											"value": "fiction"
+										},
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List of Books with limit",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response should be an array of objects\", () => {\r",
+											"    pm.expect(jsonData).to.be.an(\"array\");           \r",
+											"    pm.expect(jsonData.length).to.be.above(0);       \r",
+											"\r",
+											"    jsonData.forEach(item => {\r",
+											"        pm.expect(item).to.be.an(\"object\");\r",
+											"        pm.expect(item.id).to.be.a(\"number\");\r",
+											"        pm.expect(item.name).to.be.a(\"string\");\r",
+											"        pm.expect(item.type).to.be.a(\"string\");\r",
+											"        pm.expect(item.available).to.be.a(\"boolean\");\r",
+											"    });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/books?limit=20",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"books"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "20"
+										},
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "List of Books with fiction/non-fiction Copy",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Base_URL}}/books?type=non-fiction",
-							"host": [
-								"{{Base_URL}}"
-							],
-							"path": [
-								"books"
-							],
-							"query": [
+					"name": "Get Single Books",
+					"item": [
+						{
+							"name": "Single Book",
+							"event": [
 								{
-									"key": "limit",
-									"value": "20",
-									"disabled": true
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Test book name\", ()=>\r",
+											"{\r",
+											"    // book name includes \"The Vanishing Half\"\r",
+											"    pm.expect(jsonData.name).to.include(\"The Vanishing Half\");\r",
+											"    pm.expect(jsonData.author).to.include(\"Brit Bennett\")\r",
+											"\r",
+											"})\r",
+											"\r",
+											"// Test response time is less than 600ms.\r",
+											"\r",
+											"pm.test(\"Response Time\", ()=>\r",
+											"{\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
 								},
 								{
-									"key": "type",
-									"value": "non-fiction"
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
 								}
-							]
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/books/:bookid",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"books",
+										":bookid"
+									],
+									"variable": [
+										{
+											"key": "bookid",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "List of Books with limit",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Base_URL}}/books?limit=5",
-							"host": [
-								"{{Base_URL}}"
-							],
-							"path": [
-								"books"
-							],
-							"query": [
+					"name": "Token Generation",
+					"item": [
+						{
+							"name": "Get Token",
+							"event": [
 								{
-									"key": "limit",
-									"value": "5"
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Test to check if the response status code is 201\r",
+											"\r",
+											"pm.test(\"Status code is 201\", ()=>\r",
+											"{\r",
+											"    pm.response.to.have.status(201)\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Statu code name has a string 'Created'\", ()=>\r",
+											"{\r",
+											"    pm.response.to.have.status(\"Created\");\r",
+											"})\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.environment.set(\"tokens\", jsonData.accessToken);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
 								},
 								{
-									"key": "type",
-									"value": "non-fiction",
-									"disabled": true
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var random = Math.random().toString(36).substring(2);\r",
+											"\r",
+											"var username = \"Prabin\" + random;\r",
+											"var useremail = \"prabin\" + random + \"@gmail.com\";\r",
+											"\r",
+											"pm.environment.set(\"name_env\", username);\r",
+											"pm.environment.set(\"email_env\", useremail);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
 								}
-							]
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"clientName\" : \"{{name_env}}\",\r\n    \"clientEmail\": \"{{email_env}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Base_URL}}/api-clients",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"api-clients"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Get Single Books",
-			"item": [
+					]
+				},
 				{
-					"name": "Single Book",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Base_URL}}/books/:bookid",
-							"host": [
-								"{{Base_URL}}"
-							],
-							"path": [
-								"books",
-								":bookid"
-							],
-							"variable": [
+					"name": "Create Order",
+					"item": [
+						{
+							"name": "Submit New Order",
+							"event": [
 								{
-									"key": "bookid",
-									"value": "3"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Token Generation",
-			"item": [
-				{
-					"name": "Get Token",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"clientName\" : \"\",\r\n    \"clientEmail\": \"Kr@gmail.com\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{Base_URL}}/api-clients",
-							"host": [
-								"{{Base_URL}}"
-							],
-							"path": [
-								"api-clients"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Create Order",
-			"item": [
-				{
-					"name": "Submit New Order",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var random = Math.random().toString(36).substring(2);\r",
+											"\r",
+											"var username = \"kriti\" + random;\r",
+											"\r",
+											"pm.environment.set(\"name_env\", username);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
 								{
-									"key": "token",
-									"value": "{{Tokens}}",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", ()=> \r",
+											"{\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
 								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"bookId\" : 2,\r\n    \"customerName\" : \"Ashish\"\r\n}"
-						},
-						"url": {
-							"raw": "{{Base_URL}}/orders",
-							"host": [
-								"{{Base_URL}}"
 							],
-							"path": [
-								"orders"
-							]
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"bookId\" : 1,\r\n    \"customerName\" : \"{{name_env}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Base_URL}}/orders",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "All Order list",
-			"item": [
+					]
+				},
 				{
-					"name": "Get Order List",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+					"name": "All Order list",
+					"item": [
+						{
+							"name": "Get Order List",
+							"event": [
 								{
-									"key": "token",
-									"value": "{{Tokens}}",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"\r",
+											"pm.environment.set(\"orderId\", jsonData[0].id);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
 								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Base_URL}}/orders",
-							"host": [
-								"{{Base_URL}}"
 							],
-							"path": [
-								"orders"
-							]
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/orders",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Existing Order",
-			"item": [
+					]
+				},
 				{
-					"name": "Get Order",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+					"name": "Existing Order",
+					"item": [
+						{
+							"name": "Get Order",
+							"event": [
 								{
-									"key": "token",
-									"value": "{{Tokens}}",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Capture the id\", ()=>\r",
+											"{\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.id).to.exist;\r",
+											"    pm.expect(jsonData.id).to.be.a(\"string\");\r",
+											"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"orderId\"));\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
 								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Base_URL}}/orders/Fy_utB3SX9Aj9QVR93nrs",
-							"host": [
-								"{{Base_URL}}"
 							],
-							"path": [
-								"orders",
-								"Fy_utB3SX9Aj9QVR93nrs"
-							]
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/orders/{{orderId}}",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										"{{orderId}}"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Update Order",
-			"item": [
+					]
+				},
 				{
-					"name": "Update",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+					"name": "Update Order",
+					"item": [
+						{
+							"name": "Update",
+							"event": [
 								{
-									"key": "token",
-									"value": "{{Tokens}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"customerName\" : \"Shishir\",\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{Base_URL}}/orders/:orderId",
-							"host": [
-								"{{Base_URL}}"
-							],
-							"path": [
-								"orders",
-								":orderId"
-							],
-							"variable": [
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var random = Math.random().toString(36).substring(2);\r",
+											"\r",
+											"var username = \"kriti\" + random;\r",
+											"\r",
+											"pm.environment.set(\"name_env\", username);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
 								{
-									"key": "orderId",
-									"value": "u1CkE0J5hxVePtkIVCHGw"
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", ()=>\r",
+											"{\r",
+											"    pm.response.to.have.status(204);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response body should be empty\", ()=>\r",
+											"{\r",
+											"    pm.expect(pm.response.text()).to.be.empty;\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
 								}
-							]
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"customerName\" : \"{{name_env}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Base_URL}}/orders/{{orderId}}",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										"{{orderId}}"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Updated Order",
-			"item": [
+					]
+				},
 				{
-					"name": "Order List",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Delete Order",
-			"item": [
+					"name": "Updated Order",
+					"item": [
+						{
+							"name": "Order List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", ()=>\r",
+											"{\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/orders/{{orderId}}",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										"{{orderId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
 				{
 					"name": "Delete Order",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+					"item": [
+						{
+							"name": "Delete Order",
+							"event": [
 								{
-									"key": "token",
-									"value": "{{Tokens}}",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body is empty\", ()=>\r",
+											"{\r",
+											"    pm.expect(pm.response.text()).to.be.empty;\r",
+											"})\r",
+											"\r",
+											"pm.environment.unset(\"name_env\");\r",
+											"pm.environment.unset(\"email_env\");\r",
+											"pm.environment.unset(\"tokens\");\r",
+											"pm.environment.unset(\"orderId\");"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
 								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{Base_URL}}/orders/:orderId",
-							"host": [
-								"{{Base_URL}}"
 							],
-							"path": [
-								"orders",
-								":orderId"
-							],
-							"variable": [
-								{
-									"key": "orderId",
-									"value": "Fy_utB3SX9Aj9QVR93nrs"
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"customerName\" : \"Rakesh\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Base_URL}}/orders/{{orderId}}",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										"{{orderId}}"
+									]
 								}
-							]
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
+				},
+				{
+					"name": "Deleted Order",
+					"item": [
+						{
+							"name": "Order Deleted",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/orders/",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {},
+						"exec": [
+							"console.log(\"Pre-request script at folder level\")"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {},
+						"exec": [
+							"console.log(\"Post-request script at collection level\")"
+						]
+					}
 				}
 			]
 		},
 		{
-			"name": "Deleted Order",
+			"name": "Invalid Test",
 			"item": [
 				{
-					"name": "Order Deleted",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
+					"name": "Get Status",
+					"item": [
+						{
+							"name": "Book Status with wrong http type",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/status",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"status"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "List of Books",
+					"item": [
+						{
+							"name": "List of Book with invalid limit",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/books?limit=25",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"books"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "25"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List of Book with valid type and invalid limit",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/books?limit=25&type=fiction",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"books"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "25"
+										},
+										{
+											"key": "type",
+											"value": "fiction"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List of Book with invalid type and valid limit",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/books?limit=20&type=comedy",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"books"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "20"
+										},
+										{
+											"key": "type",
+											"value": "comedy"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Single Books",
+					"item": [
+						{
+							"name": "Single Book with invalid bookId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/books/:bookid",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"books",
+										":bookid"
+									],
+									"variable": [
+										{
+											"key": "bookid",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Token Generation",
+					"item": [
+						{
+							"name": "Token with invalid credentials",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"clientName\" : \"Asho@#\",\r\n    \"clientEmail\": \"Kr@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/api-clients",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"api-clients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Token with Registered email address",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"clientName\" : \"Ashok\",\r\n    \"clientEmail\": \"Kr@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/api-clients",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"api-clients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Token with empty username",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"clientName\" : \"\",\r\n    \"clientEmail\": \"Kr@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/api-clients",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"api-clients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Token with empty email",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"clientName\" : \"Prabin\",\r\n    \"clientEmail\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/api-clients",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"api-clients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Token with empty name and email",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"clientName\" : \"\",\r\n    \"clientEmail\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/api-clients",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"api-clients"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create Order",
+					"item": [
+						{
+							"name": "invalid credentials and valid token",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"bookId\" : 25,\r\n    \"customerName\" : \"ASHOK\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Base_URL}}/orders",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Valid credentials and invalid token",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"bookId\" : 1,\r\n    \"customerName\" : \"ASHOK\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Base_URL}}/orders",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New order with empty book Id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"bookId\" : ,\r\n    \"customerName\" : \"ASHOK\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Base_URL}}/orders",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New order with empty book Id and client Name",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"bookId\" : ,\r\n    \"customerName\" : \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Base_URL}}/orders",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "All Order List",
+					"item": [
+						{
+							"name": "New Request",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/orders",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Existing Order",
+					"item": [
+						{
+							"name": "Existing order with wrong orderId",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/orders/:orderId",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										":orderId"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "orderId",
+											"value": "VuCwXJXPLNa8uRfui8I5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Existing order without authorization token",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/orders/:orderid",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										":orderid"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "orderid",
+											"value": "VuCwXJXPLNa8uRfui8I5C"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Update Order",
+					"item": [
+						{
+							"name": "Update order with invalid order Id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"customerName\" : \"Prabinaa\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Base_URL}}/orders/:orderid",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										":orderid"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "orderid",
+											"value": "VuCwXJXPLNa8uRfui8I5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update order without authirozation token",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"customerName\" : \"Prabinaa\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Base_URL}}/orders/:orderid",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										":orderid"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "orderid",
+											"value": "VuCwXJXPLNa8uRfui8I5C"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update order without customerName",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"customerName\" : \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Base_URL}}/orders/:orderid",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										":orderid"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "orderid",
+											"value": "VuCwXJXPLNa8uRfui8I5C"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update order is not seen in the response body",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"customerName\" : \"Prabinaa\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Base_URL}}/orders/:orderid",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										":orderid"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "orderid",
+											"value": "VuCwXJXPLNa8uRfui8I5C"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Updated Order",
+					"item": [
+						{
+							"name": "Updated order with wrong orderId",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/orders/:orderid",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										":orderid"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "orderid",
+											"value": "VuCwXJXPLNa8uRfui8I5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Updated order without authorization token",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/orders/:orderid",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										":orderid"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "orderid",
+											"value": "VuCwXJXPLNa8uRfui8I5"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete Order",
+					"item": [
+						{
+							"name": "Delete order with invalid orderId",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/orders/:orderid",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										":orderid"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "orderid",
+											"value": "VuCwXJXPLNa8uRfui8I5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete order without authorization token",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/orders/:orderid",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										":orderid"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "orderid",
+											"value": "VuCwXJXPLNa8uRfui8I5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deleted order is not seen on the response body",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/orders/:orderid",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										":orderid"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "orderid",
+											"value": "7S7iG9Jkm46afq3oNx_a2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete order that is already deleted",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{Base_URL}}/orders/:orderid",
+									"host": [
+										"{{Base_URL}}"
+									],
+									"path": [
+										"orders",
+										":orderid"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "non-fiction",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "orderid",
+											"value": "VuCwXJXPLNa8uRfui8I5C"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Deleted Order",
+					"item": [
+						{
+							"name": "Deleted order without authorization token",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BaseURL}}/orders",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
@@ -401,7 +1911,7 @@
 				"packages": {},
 				"requests": {},
 				"exec": [
-					""
+					"console.log(\"Pre-request script at collection level\")"
 				]
 			}
 		},
@@ -412,7 +1922,7 @@
 				"packages": {},
 				"requests": {},
 				"exec": [
-					""
+					"console.log(\"Post equest script at collection level\")"
 				]
 			}
 		}

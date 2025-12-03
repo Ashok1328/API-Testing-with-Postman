@@ -1,0 +1,297 @@
+{
+	"info": {
+		"_postman_id": "ce8bf06c-0455-45ea-aaaa-eede28608200",
+		"name": "SwaggerPetStore_JSON_UserModel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40460773",
+		"_collection_link": "https://team-beast-6546.postman.co/workspace/My-worksapces~9a4a871f-4771-42a1-8fa7-5e3cb44541f2/collection/40460773-ce8bf06c-0455-45ea-aaaa-eede28608200?action=share&source=collection_link&creator=40460773"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"item": [
+				{
+					"name": "Create a user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomnum = Math.floor((Math.random()*100+1));\r",
+									"var randomstr = \"Ashu\" + Math.random().toString(33).substring(2);\r",
+									"\r",
+									"pm.environment.set(\"id\", randomnum);\r",
+									"pm.collectionVariables.set(\"username\", randomstr);\r",
+									"pm.collectionVariables.set(\"firstName\", randomstr);\r",
+									"pm.collectionVariables.set(\"lastName\", randomstr);\r",
+									"pm.collectionVariables.set(\"email\", randomstr + \"@gmail.com\");\r",
+									"pm.collectionVariables.set(\"password\", randomstr + \"123\");\r",
+									"pm.collectionVariables.set(\"phone\", \"1111111111\");\r",
+									"pm.collectionVariables.set(\"userStatus\", 0);\r",
+									"\r",
+									"console.log(randomnum);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\",()=>\r",
+									"{\r",
+									"    pm.response.to.have.status(200);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"{{id}}\",\r\n  \"username\": \"{{username}}\",\r\n  \"firstName\": \"{{firstName}}\",\r\n  \"lastName\": \"{{lastName}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"phone\": \"{{phone}}\",\r\n  \"userStatus\": \"{{userStatus}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/v2/user",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v2",
+								"user"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://petstore.swagger.io/v2/user' \\\r\n  -H 'accept: application/json' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"id\": 0,\r\n  \"username\": \"john\",\r\n  \"firstName\": \"sdf\",\r\n  \"lastName\": \"string\",\r\n  \"email\": \"ssf@gmail.com\",\r\n  \"password\": \"string\",\r\n  \"phone\": \"string\",\r\n  \"userStatus\": 0\r\n}'"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Created User",
+			"item": [
+				{
+					"name": "Get User by name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/v2/user/{{firstName}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v2",
+								"user",
+								"{{firstName}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update User",
+			"item": [
+				{
+					"name": "Update user by name",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"var randomstr = \"Ashu\" + Math.random().toString(33).substring(2);\r",
+									"\r",
+									"// Update email and phone\r",
+									"\r",
+									"pm.collectionVariables.set(\"email\", randomstr + \"@gmail.com\");\r",
+									"pm.collectionVariables.set(\"phone\", \"122566565\");\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\",()=>\r",
+									"{\r",
+									"    pm.response.to.have.status(200);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"{{id}}\",\r\n  \"username\": \"{{username}}\",\r\n  \"firstName\": \"{{firstName}}\",\r\n  \"lastName\": \"{{lastName}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"phone\": \"{{phone}}\",\r\n  \"userStatus\": \"{{userStatus}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/v2/user/{{firstName}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v2",
+								"user",
+								"{{firstName}}"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://petstore.swagger.io/v2/user' \\\r\n  -H 'accept: application/json' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"id\": 0,\r\n  \"username\": \"john\",\r\n  \"firstName\": \"sdf\",\r\n  \"lastName\": \"string\",\r\n  \"email\": \"ssf@gmail.com\",\r\n  \"password\": \"string\",\r\n  \"phone\": \"string\",\r\n  \"userStatus\": 0\r\n}'"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete User",
+			"item": [
+				{
+					"name": "Delete user by name",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\",()=>\r",
+									"{\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.environment.unset(\"id\");\r",
+									"pm.collectionVariables.unset(\"username\");\r",
+									"pm.collectionVariables.unset(\"password\");\r",
+									"pm.collectionVariables.unset(\"firstName\");\r",
+									"pm.collectionVariables.unset(\"lastName\");\r",
+									"pm.collectionVariables.unset(\"email\");\r",
+									"pm.collectionVariables.unset(\"phone\");\r",
+									"pm.collectionVariables.unset(\"userStatus\");"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/v2/user/{{firstName}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v2",
+								"user",
+								"{{firstName}}"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://petstore.swagger.io/v2/user' \\\r\n  -H 'accept: application/json' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"id\": 0,\r\n  \"username\": \"john\",\r\n  \"firstName\": \"sdf\",\r\n  \"lastName\": \"string\",\r\n  \"email\": \"ssf@gmail.com\",\r\n  \"password\": \"string\",\r\n  \"phone\": \"string\",\r\n  \"userStatus\": 0\r\n}'"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "useerStatus",
+			"value": ""
+		}
+	]
+}

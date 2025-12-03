@@ -1,0 +1,317 @@
+{
+	"info": {
+		"_postman_id": "c1be5ded-c607-484e-9b79-24f24cf58811",
+		"name": "GoRestAPI_Chaining",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40460773",
+		"_collection_link": "https://team-beast-6546.postman.co/workspace/9a4a871f-4771-42a1-8fa7-5e3cb44541f2/collection/40460773-c1be5ded-c607-484e-9b79-24f24cf58811?action=share&source=collection_link&creator=40460773"
+	},
+	"item": [
+		{
+			"name": "Create New User",
+			"item": [
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", ()=>\r",
+									"{\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									"\r",
+									"var jsonData =  JSON.parse(responseBody);\r",
+									"pm.environment.set(\"userid_env\", jsonData.id);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var random = Math.random().toString(36).substring(2)\r",
+									"\r",
+									"var useremail = \"rampiyari\" + random + \"@gmail.com\"\r",
+									"\r",
+									"var username = \"Ram Piyari\" + random;\r",
+									"\r",
+									"pm.environment.set(\"email_env\", useremail);\r",
+									"pm.environment.set(\"name_env\", username);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokens}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"{{name_env}}\", \r\n    \"gender\" : \"Female\",\r\n    \"email\" : \"{{email_env}}\",\r\n    \"status\" : \"inactive\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{gorest_url}}/public/v2/users",
+							"host": [
+								"{{gorest_url}}"
+							],
+							"path": [
+								"public",
+								"v2",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Detail",
+			"item": [
+				{
+					"name": "Get User Detail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", ()=>\r",
+									"{\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"// validating json field in the response\r",
+									"\r",
+									"pm.test(\"Value of the Json field\", ()=>\r",
+									"{\r",
+									"    var jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"userid_env\"));\r",
+									"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"name_env\"));\r",
+									"    pm.expect(jsonData.email).to.eql(pm.environment.get(\"email_env\"));\r",
+									"\r",
+									"\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokens}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gorest_url}}/public/v2/users/{{userid_env}}",
+							"host": [
+								"{{gorest_url}}"
+							],
+							"path": [
+								"public",
+								"v2",
+								"users",
+								"{{userid_env}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update User Detail",
+			"item": [
+				{
+					"name": "Update User Detail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", ()=>\r",
+									"{\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var random = Math.random().toString(36).substring(2);\r",
+									"\r",
+									"var email = \"rampiyari\" + random + \"@gmail.com\";\r",
+									"var name = \"Ram Piyara\" + random;   \r",
+									"\r",
+									"pm.environment.set(\"email_env\", email); \r",
+									"pm.environment.set(\"name_env\", name); "
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokens}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"{{name_env}}\", \r\n    \"email\" : \"{{email_env}}\",\r\n    \"status\" : \"active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{gorest_url}}/public/v2/users/{{userid_env}}",
+							"host": [
+								"{{gorest_url}}"
+							],
+							"path": [
+								"public",
+								"v2",
+								"users",
+								"{{userid_env}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete User Detail",
+			"item": [
+				{
+					"name": "Delete User Detail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", ()=>\r",
+									"{\r",
+									"    pm.response.to.have.status(204);\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.environment.unset(\"userid_env\");\r",
+									"pm.environment.unset(\"name_env\");\r",
+									"pm.environment.unset(\"email_env\");  "
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokens}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{gorest_url}}/public/v2/users/{{userid_env}}",
+							"host": [
+								"{{gorest_url}}"
+							],
+							"path": [
+								"public",
+								"v2",
+								"users",
+								"{{userid_env}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
