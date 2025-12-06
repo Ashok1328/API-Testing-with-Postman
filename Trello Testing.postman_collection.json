@@ -1,0 +1,350 @@
+{
+	"info": {
+		"_postman_id": "dd372c40-de3d-4cdd-a6f3-d9d6a628101c",
+		"name": "Trello Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40460773",
+		"_collection_link": "https://team-beast-6546.postman.co/workspace/Internship-Presentation~b997814b-95c9-4ab8-aa7f-e008ebd83b9d/collection/40460773-dd372c40-de3d-4cdd-a6f3-d9d6a628101c?action=share&source=collection_link&creator=40460773"
+	},
+	"item": [
+		{
+			"name": "Boards",
+			"item": [
+				{
+					"name": "Create a board",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var random = Math.random().toString(36).substring(2);\r",
+									"\r",
+									"var name = \"Postman Project Board\" + random;\r",
+									"\r",
+									"pm.environment.set(\"boardname\", name);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"\r",
+									"pm.globals.set(\"board_id\", jsonData.id);\r",
+									"\r",
+									"pm.test(\"Board Name Exist\", () =>\r",
+									"{\r",
+									"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"boardname\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Board Id Exist\", ()=>\r",
+									"{\r",
+									"    pm.expect(jsonData.id).to.eql(pm.globals.get(\"board_id\"));\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Board Id should be valid\", ()=>\r",
+									"{\r",
+									"    pm.expect(jsonData.id).to.not.be.null;\r",
+									"    pm.expect(jsonData.id).to.not.be.empty;\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"{{boardname}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Trello_URL}}/1/boards?key={{Key}}&token={{tokens}}",
+							"host": [
+								"{{Trello_URL}}"
+							],
+							"path": [
+								"1",
+								"boards"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{tokens}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the created baord",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check status code is 200\", ()=>\r",
+									"{\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"{\r",
+									"    pm.expect(jsonData).to.have.property(\"name\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Board Id should be valid\",()=>\r",
+									"{\r",
+									"    pm.expect(jsonData.id).to.not.be.null;\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Trello_URL}}/1/boards/{{board_id}}?key={{Key}}&token={{tokens}}",
+							"host": [
+								"{{Trello_URL}}"
+							],
+							"path": [
+								"1",
+								"boards",
+								"{{board_id}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{tokens}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update board name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check statu code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct board name\", ()=>\r",
+									"{\r",
+									"    let jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"boardname\"));\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var random = Math.random().toString(36).substring(2);\r",
+									"\r",
+									"var name = \"Video Recording\" + random;\r",
+									"\r",
+									"pm.environment.set(\"boardname\", name);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"{{boardname}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Trello_URL}}/1/boards/{{board_id}}?key={{Key}}&token={{tokens}}",
+							"host": [
+								"{{Trello_URL}}"
+							],
+							"path": [
+								"1",
+								"boards",
+								"{{board_id}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{tokens}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the created board 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check status code is 200\", ()=>\r",
+									"{\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"{\r",
+									"    pm.expect(jsonData).to.have.property(\"name\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Board Id should be valid\",()=>\r",
+									"{\r",
+									"    pm.expect(jsonData.id).to.not.be.null;\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Trello_URL}}/1/boards/{{board_id}}?key={{Key}}&token={{tokens}}",
+							"host": [
+								"{{Trello_URL}}"
+							],
+							"path": [
+								"1",
+								"boards",
+								"{{board_id}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{tokens}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get membership of a board",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Chek status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if the response body is an array\", function () {\r",
+									"    pm.expect(pm.response.json()).to.be.an('array');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Trello_URL}}/1/boards/{{board_id}}/memberships?key={{Key}}&token={{tokens}}",
+							"host": [
+								"{{Trello_URL}}"
+							],
+							"path": [
+								"1",
+								"boards",
+								"{{board_id}}",
+								"memberships"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"disabled": true
+								},
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{tokens}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
