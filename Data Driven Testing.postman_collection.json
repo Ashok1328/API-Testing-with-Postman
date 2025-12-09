@@ -1,0 +1,693 @@
+{
+	"info": {
+		"_postman_id": "39aa0bb6-a231-47d5-8ace-933119c6a7b0",
+		"name": "Data Driven Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40460773",
+		"_collection_link": "https://team-beast-6546.postman.co/workspace/Internship-Presentation~b997814b-95c9-4ab8-aa7f-e008ebd83b9d/collection/40460773-39aa0bb6-a231-47d5-8ace-933119c6a7b0?action=share&source=collection_link&creator=40460773"
+	},
+	"item": [
+		{
+			"name": "Testing with CSV files",
+			"item": [
+				{
+					"name": "Create token",
+					"item": [
+						{
+							"name": "Get Token",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var random = Math.random().toString().substring();\r",
+											"\r",
+											"var username = \"ashui\" + random;\r",
+											"var useremail = \"ashui\" + random + \"@gmail.com\";\r",
+											"\r",
+											"pm.environment.set(\"username\", username);\r",
+											"pm.environment.set(\"useremail\", useremail);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Test to check the status code\r",
+											"\r",
+											"pm.test(\"Check status code 201\", ()=>\r",
+											"{\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"// Test to capture the response body and store it in an gloabls variable\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.globals.set(\"tokens\", jsonData.accessToken);\r",
+											"\r",
+											"// Test token is present in the response body\r",
+											"\r",
+											"pm.test(\"Check if token is present in the response body\", ()=>\r",
+											"{\r",
+											"    pm.expect(jsonData.accessToken).to.not.be.null;\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"clientName\" : \"{{username}}\",\r\n    \"clientEmail\": \"{{useremail}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{data_URL}}/api-clients",
+									"host": [
+										"{{data_URL}}"
+									],
+									"path": [
+										"api-clients"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Submit new order",
+					"item": [
+						{
+							"name": "Submit new order",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Test to check the status code \r",
+											"\r",
+											"pm.test(\"Check status code is 201\", ()=>\r",
+											"{\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"// Test to capture the order_id from the response and store it in an environment variable\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.environment.set(\"order_id\",jsonData.orderId);\r",
+											"\r",
+											"// Test order id is same \r",
+											"\r",
+											"pm.test(\"Check order id is same\", ()=>\r",
+											"{\r",
+											"    pm.expect(pm.response.json().orderId).to.eql(pm.environment.get(\"order_id\"));\r",
+											"});\r",
+											"\r",
+											"// Test order id is created is ture\r",
+											"\r",
+											"pm.test(\"Check order id is created is true\", () =>\r",
+											"{\r",
+											"    pm.expect(pm.response.json().created).to.eql(true);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"bookId\" : {{BookID}},\r\n    \"customerName\" : \"{{CustomerName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{data_URL}}/orders",
+									"host": [
+										"{{data_URL}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Existing order",
+					"item": [
+						{
+							"name": "Get order list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Test to check if the response status code is 200.\r",
+											"\r",
+											"pm.test(\"Check status code is 200\", ()=>\r",
+											"{\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"// Test response header with content-type includes application/json\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Check content-type header is a application/json\" ,()=>\r",
+											"{\r",
+											"    pm.expect(pm.response.headers.get(\"content-type\")).to.eql(\"application/json\");\r",
+											"})\r",
+											"\r",
+											"// Validaete all keys are present or not\r",
+											"\r",
+											"pm.test(\"All field exists\", ()=>\r",
+											"{\r",
+											"    pm.expect(jsonData).to.have.all.keys(\"id\", \"bookId\", \"customerName\", \"quantity\", \"timestamp\");\r",
+											"})\r",
+											"\r",
+											"//  Testing cookies is present or not\r",
+											"\r",
+											"pm.test(\"Cookies are present\", function () {\r",
+											"    let cookies = pm.cookies.toObject();\r",
+											"    pm.expect(Object.keys(cookies).length).to.be.above(0);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"// Check if the order_id is present in the response\r",
+											"\r",
+											"pm.test(\"Check if Id is present in the response\", ()=>\r",
+											"{\r",
+											"    pm.expect(jsonData).to.have.property(\"id\");\r",
+											"});\r",
+											"\r",
+											"// Check response time 200-500 ms\r",
+											"\r",
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"// Check if field types are correct \r",
+											"\r",
+											"pm.test(\"Field types are correct\", function () {\r",
+											"    pm.expect(jsonData.id).to.be.a(\"string\");\r",
+											"    pm.expect(jsonData.bookId).to.be.a(\"number\");\r",
+											"    pm.expect(jsonData.customerName).to.be.a(\"string\");\r",
+											"    pm.expect(jsonData.quantity).to.be.a(\"number\");\r",
+											"    pm.expect(jsonData.timestamp).to.be.a(\"number\");\r",
+											"});\r",
+											"\r",
+											"// JSON Schema Validation using ajv vaidator\r",
+											"const Ajv = require('ajv');\r",
+											"const ajv = new Ajv({ allErrors: true });\r",
+											"\r",
+											"pm.test(\"JSON schema validation using ajv validator\", function () {\r",
+											"    let jsonData = pm.response.json();\r",
+											"\r",
+											"    let schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"id\": { \"type\": \"string\" },\r",
+											"            \"bookId\": { \"type\": \"integer\" },\r",
+											"            \"customerName\": { \"type\": \"string\" },\r",
+											"            \"quantity\": { \"type\": \"integer\" },\r",
+											"            \"timestamp\": { \"type\": \"integer\" }\r",
+											"        },\r",
+											"        \"required\": [\"id\", \"bookId\", \"customerName\", \"quantity\", \"timestamp\"]\r",
+											"    };\r",
+											"\r",
+											"    const validate = ajv.compile(schema);\r",
+											"    const valid = validate(jsonData);\r",
+											"\r",
+											"    if (!valid) {\r",
+											"        console.log(\"Schema Errors:\", validate.errors);\r",
+											"    }\r",
+											"\r",
+											"    pm.expect(valid, \"Schema validation failed\").to.be.true;\r",
+											"});\r",
+											"\r",
+											"\r",
+											"// Check schema validatio using tjv validator\r",
+											"\r",
+											"var schema = {\r",
+											"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"bookId\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"customerName\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"quantity\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"timestamp\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"id\",\r",
+											"    \"bookId\",\r",
+											"    \"customerName\",\r",
+											"    \"quantity\",\r",
+											"    \"timestamp\"\r",
+											"  ]\r",
+											"};\r",
+											"pm.test(\"Check if response body matches the schema\", () => {\r",
+											"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{data_URL}}/orders/{{order_id}}",
+									"host": [
+										"{{data_URL}}"
+									],
+									"path": [
+										"orders",
+										"{{order_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete order",
+					"item": [
+						{
+							"name": "Delete Order",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Test to check if the response status code is 204 (No Content) after deleting an order\r",
+											"\r",
+											"pm.test(\"Check status code is 204\", ()=>\r",
+											"{\r",
+											"    pm.response.to.have.status(204);\r",
+											"})\r",
+											"\r",
+											"// check response body is present with status code 204 content\r",
+											"\r",
+											"pm.test(\"Check response body is empty\", ()=>\r",
+											"{\r",
+											"    pm.expect(pm.response.text()).to.be.empty;\r",
+											"})\r",
+											"\r",
+											"// Unset created environment variable\r",
+											"\r",
+											"pm.environment.unset(\"username\");\r",
+											"pm.environment.unset(\"useremail\");\r",
+											"pm.environment.unset(\"tokens\");\r",
+											"pm.environment.unset(\"order_id\");\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{data_URL}}/orders/{{order_id}}",
+									"host": [
+										"{{data_URL}}"
+									],
+									"path": [
+										"orders",
+										"{{order_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Testing with JSON files",
+			"item": [
+				{
+					"name": "Create token",
+					"item": [
+						{
+							"name": "Get Token",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var random = Math.random().toString().substring();\r",
+											"\r",
+											"var username = \"ashui\" + random;\r",
+											"var useremail = \"ashui\" + random + \"@gmail.com\";\r",
+											"\r",
+											"pm.environment.set(\"username\", username);\r",
+											"pm.environment.set(\"useremail\", useremail);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Test status code is 201\r",
+											"\r",
+											"pm.test(\"Check status code 201\", ()=>\r",
+											"{\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"\r",
+											"// Test token is set to collectionVariables\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"tokens\", jsonData.accessToken);\r",
+											"\r",
+											"//\r",
+											"\r",
+											"pm.test(\"Check token is present is present\", ()=>\r",
+											"{\r",
+											"    pm.expect(jsonData.accessToken).to.not.be.null;\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"clientName\" : \"{{username}}\",\r\n    \"clientEmail\": \"{{useremail}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{data_URL}}/api-clients",
+									"host": [
+										"{{data_URL}}"
+									],
+									"path": [
+										"api-clients"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Submit new order",
+					"item": [
+						{
+							"name": "Submit new order",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// test status code is 200\r",
+											"\r",
+											"pm.test(\"Check status code is 201\", ()=>\r",
+											"{\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"// catpure order id\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.environment.set(\"order_id\",jsonData.orderId);\r",
+											"\r",
+											"// check order id is not null\r",
+											"\r",
+											"pm.test(\"Check order id is not null\", ()=>\r",
+											"{\r",
+											"    pm.expect(jsonData.orderId).to.not.be.null;\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"bookId\" : {{BookID}},\r\n    \"customerName\" : \"{{CustomerName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{data_URL}}/orders",
+									"host": [
+										"{{data_URL}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Existing order",
+					"item": [
+						{
+							"name": "Get order list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Check status code is 200\r",
+											"\r",
+											"pm.test(\"Check status code is 200\", ()=>\r",
+											"{\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"// Check if the order_id is present in the response\r",
+											"\r",
+											"pm.test(\"Check if Id is present in the response\", ()=>\r",
+											"{\r",
+											"    var jsonData = pm.response.json(); // Parse the response body as JSON\r",
+											"    pm.expect(jsonData).to.have.property(\"id\");\r",
+											"});\r",
+											"\r",
+											"// Check response time 200-500 ms\r",
+											"\r",
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{data_URL}}/orders/{{order_id}}",
+									"host": [
+										"{{data_URL}}"
+									],
+									"path": [
+										"orders",
+										"{{order_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete order",
+					"item": [
+						{
+							"name": "Delete Order",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Check status code is 204\r",
+											"\r",
+											"pm.test(\"Check status code is 204\", ()=>\r",
+											"{\r",
+											"    pm.response.to.have.status(204);\r",
+											"})\r",
+											"\r",
+											"// check is response body is empty\r",
+											"\r",
+											"pm.test(\"Check response body is empty\", () =>\r",
+											"{\r",
+											"    pm.expect(pm.response.text()).to.be.null;\r",
+											"}\r",
+											"\r",
+											"// unset the set environment variable\r",
+											"pm.environment.unset(\"username\");\r",
+											"pm.environment.unset(\"useremail\");\r",
+											"pm.environment.unset(\"tokens\");\r",
+											"pm.environment.unset(\"order_id\");"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tokens}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{data_URL}}/orders/{{order_id}}",
+									"host": [
+										"{{data_URL}}"
+									],
+									"path": [
+										"orders",
+										"{{order_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "tokens",
+			"value": ""
+		}
+	]
+}
