@@ -1,0 +1,460 @@
+{
+	"info": {
+		"_postman_id": "01cae5c3-b5e7-4e89-bc7f-6a1724c2eb6e",
+		"name": "Mock_Server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40460773",
+		"_collection_link": "https://team-beast-6546.postman.co/workspace/Internship~b82897b8-8bef-4184-ae37-4a1770a096dd/collection/40460773-01cae5c3-b5e7-4e89-bc7f-6a1724c2eb6e?action=share&source=collection_link&creator=40460773"
+	},
+	"item": [
+		{
+			"name": "Get All Students data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// check status code\r",
+							"pm.test(\"Status code is 200\", ()=>\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// check response time \r",
+							"pm.test(\"Response time is less than 200ms\", () =>\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"// check header is present or not\r",
+							"pm.test(\"Header is present\", ()=>\r",
+							"{\r",
+							"    pm.expect(pm.response.headers.get(\"Content-type\")).to.not.be.null;\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/students",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// check status code\r",
+							"pm.test(\"Status code is 200\", ()=>\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// check response time \r",
+							"pm.test(\"Response time is less than 200ms\", () =>\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"// check header\r",
+							"pm.test(\"Content-Type is application/json\", () =>\r",
+							"{\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/students/:id?name=Kiran&location=Nepal",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"students",
+						":id"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Kiran"
+						},
+						{
+							"key": "location",
+							"value": "Nepal"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "6f87"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create New Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// check status code\r",
+							"pm.test(\"Check status code is 201\", ()=>\r",
+							"{\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"// check response time is less than 200ms\r",
+							"pm.test(\"Check response time is less than 200ms\", () =>\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"})\r",
+							"\r",
+							"//check cookies is present or not\r",
+							"pm.test(\"Check if cookies are present\", () =>\r",
+							"{\r",
+							"    pm.expect(pm.cookies.count()).to.be.above(0);\r",
+							"});\r",
+							"\r",
+							"//check content-type header is application/json\r",
+							"pm.test(\"Check content-type header is application/json\", ()=>\r",
+							"{\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"// capture id from response\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.collectionVariables.set(\"id\", jsonData.id);\r",
+							"\r",
+							"// validating json field in response\r",
+							"pm.test(\" Validate value of response body\", ()=>\r",
+							"{\r",
+							"    const jsonData = pm.response.json();\r",
+							"    //whole response\r",
+							"    pm.expect(jsonData).to.be.an('object')\r",
+							"    // individual fields\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.name).to.equal(pm.environment.get(\"name\"));\r",
+							"    pm.expect(jsonData.location).to.equal(\"France\");\r",
+							"    pm.expect(jsonData.phone).to.equal(String(pm.environment.get(\"phoneNumber\")));\r",
+							"    // array validation\r",
+							"    pm.expect(jsonData.courses).to.be.an('array');   \r",
+							"    pm.expect(jsonData.courses).to.include.members([\"Playwright\", \"JavaScript\"]);\r",
+							"})\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"// check array properties\r",
+							"pm.test(\"Test array properties\", ()=>\r",
+							"{\r",
+							"    pm.expect(jsonData.courses).to.have.members([\"Playwright\", \"JavaScript\"])\r",
+							"});\r",
+							"\r",
+							"// JSON Schema Validation using tv4 validator\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"  \"properties\": {\r",
+							"    \"id\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"name\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"location\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"phone\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"courses\": {\r",
+							"      \"type\": \"array\",\r",
+							"      \"items\": [\r",
+							"        {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        {\r",
+							"          \"type\": \"string\"\r",
+							"        }\r",
+							"      ]\r",
+							"    }\r",
+							"  },\r",
+							"  \"required\": [\r",
+							"    \"id\",\r",
+							"    \"name\",\r",
+							"    \"location\",\r",
+							"    \"phone\",\r",
+							"    \"courses\"\r",
+							"  ]\r",
+							"};\r",
+							"\r",
+							"pm.test(\"Validate JSON Schema using tv4 validator\", () =>\r",
+							"{\r",
+							"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// JSON schema validation using Ajv validator\r",
+							"var Ajv = require('ajv');\r",
+							"var ajv = new Ajv();\r",
+							"\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"  \"properties\": {\r",
+							"    \"id\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"name\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"location\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"phone\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"courses\": {\r",
+							"      \"type\": \"array\",\r",
+							"      \"items\": [\r",
+							"        {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        {\r",
+							"          \"type\": \"string\"\r",
+							"        }\r",
+							"      ]\r",
+							"    }\r",
+							"  },\r",
+							"  \"required\": [\r",
+							"    \"id\",\r",
+							"    \"name\",\r",
+							"    \"location\",\r",
+							"    \"phone\",\r",
+							"    \"courses\"\r",
+							"  ]\r",
+							"};\r",
+							"\r",
+							"    const response = pm.response.json();\r",
+							"    const validate= ajv.compile(schema);\r",
+							"    const isValid = validate(response);\r",
+							"\r",
+							"pm.test(\"JSON schema validation using Ajv validator\", ()=>\r",
+							"{\r",
+							"    pm.expect(isValid).to.be.true;\r",
+							"\r",
+							"})\r",
+							"\r",
+							"if(!isValid)\r",
+							"{\r",
+							"    console.log(validate.errors);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// generating random number\r",
+							"var randomNumber = Math.floor(Math.random()*1000);\r",
+							"pm.environment.set(\"phoneNumber\",randomNumber)\r",
+							"\r",
+							"// generatng random string\r",
+							"var random = Math.random().toString(36).substring(2);\r",
+							"var username = \"Kushal\" + random;\r",
+							"pm.environment.set(\"name\", username);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"{{name}}\",\r\n    \"location\" : \"France\",\r\n    \"phone\" : \"{{phoneNumber}}\",\r\n    \"courses\" : [\r\n        \"Playwright\",\r\n        \"JavaScript\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/students",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// check status code\r",
+							"pm.test(\"Check status code is 200\", ()=>\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"// check response time is less than 200ms\r",
+							"pm.test(\"Check response time is less than 200ms\", () =>\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"})\r",
+							"\r",
+							"\r",
+							"//check content-type header is application/json\r",
+							"pm.test(\"Check content-type header is application/json\", ()=>\r",
+							"{\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// generating random number\r",
+							"var randomNumber = Math.floor(Math.random()*1000);\r",
+							"pm.environment.set(\"phoneNumber\",randomNumber)\r",
+							"\r",
+							"// generatng random string\r",
+							"var random = Math.random().toString(36).substring(2);\r",
+							"var username = \"Kushal\" + random;\r",
+							"pm.environment.set(\"name\", username);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"{{name}}\",\r\n    \"location\" : \"France\",\r\n    \"phone\" : \"{{phoneNumber}}\",\r\n    \"courses\" : [\r\n        \"Playwright\",\r\n        \"JavaScript\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/students/{{id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"students",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// check status code\r",
+							"pm.test(\"Successful delete request\", ()=>\r",
+							"{\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,204,404]);\r",
+							"})\r",
+							"\r",
+							"// check response time is less than 200ms\r",
+							"pm.test(\"Check response time is less than 200ms\", () =>\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"})\r",
+							"\r",
+							"\r",
+							"// unset set varaible\r",
+							"pm.environment.unset(\"phoneNumber\");\r",
+							"pm.environment.unset(\"name\");\r",
+							"pm.collectionVariables.unset(\"id\");"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/students/{{id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"students",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
